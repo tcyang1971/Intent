@@ -12,7 +12,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,6 +46,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun FirstScreen(){
     val context = LocalContext.current  //取得App的運行環境
+    var url by remember { mutableStateOf("https://www.pu.edu.tw") }
+
     Column(modifier = Modifier
         .fillMaxSize()
         .background(Color.Cyan),
@@ -48,8 +55,18 @@ fun FirstScreen(){
         horizontalAlignment = Alignment.CenterHorizontally
     )
     {
+        TextField(
+            value = url,
+            onValueChange = { newText ->
+                url = newText
+            },
+            label = { Text(text = "網址") },
+            placeholder = { Text(text = "請輸入您要瀏覽的網址") }
+        )
+
         Button(onClick = {
             var it = Intent(context, SecondActivity::class.java)
+            it.putExtra("website", url)
             context.startActivity(it)
         })
         {
