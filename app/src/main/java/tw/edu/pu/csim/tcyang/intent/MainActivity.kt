@@ -25,6 +25,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import tw.edu.pu.csim.tcyang.intent.ui.theme.IntentTheme
 
 class MainActivity : ComponentActivity() {
@@ -38,7 +42,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     //Greeting()
-                    FirstScreen()
+                    //FirstScreen()
+                    Main()
                 }
             }
         }
@@ -46,7 +51,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun FirstScreen(){
+fun FirstScreen(navController: NavController){
     val context = LocalContext.current  //取得App的運行環境
     var url by remember { mutableStateOf("https://www.pu.edu.tw") }
 
@@ -119,6 +124,43 @@ fun FirstScreen(){
             Text(text = "Google Map查詢")
         }
 
+        Button(onClick = {
+            navController.navigate("JumpSecond")
+        }) {
+            Text(text = "我是畫面1，按一下跳至畫面2")
+        }
+
     }
 }
+
+@Composable
+fun SecondScreen(navController: NavController) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(Color.Yellow),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = {
+            navController.navigate("JumpFirst")
+        }) {
+            Text(text = "我是畫面2，按一下跳至畫面1")
+        }
+
+    }
+}
+
+@Composable
+fun Main() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "JumpFirst"){
+        composable("JumpFirst"){
+            FirstScreen(navController = navController)
+        }
+        composable("JumpSecond"){
+            SecondScreen(navController = navController)
+        }
+    }
+}
+
 
