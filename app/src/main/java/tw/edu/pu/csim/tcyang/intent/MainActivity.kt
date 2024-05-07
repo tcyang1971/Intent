@@ -1,6 +1,8 @@
 package tw.edu.pu.csim.tcyang.intent
 
+import android.app.SearchManager
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -72,6 +74,51 @@ fun FirstScreen(){
         {
             Text(text = "跳轉到SecondActivity")
         }
+
+        Button(
+            onClick = {
+                var it = Intent(Intent.ACTION_VIEW)
+                it.data = Uri.parse(url)
+                context.startActivity(it)
+            }
+        )
+        {
+            Text(text = "開啟瀏覽器")
+        }
+
+        Button(
+            onClick = {
+                var it = Intent(Intent.ACTION_SENDTO)
+                it.data = Uri.parse("mailto:tcyang@gm.pu.edu.tw")
+                context.startActivity(it)
+            }
+        )
+        {
+            Text(text = "寄發電子郵件")
+        }
+
+        Button(
+            onClick = {
+                var it = Intent(Intent.ACTION_WEB_SEARCH)
+                it.putExtra(SearchManager.QUERY, "靜宜資管")
+                context.startActivity(it)
+            }
+        )
+        {
+            Text(text = "搜尋關鍵字")
+        }
+
+        Button(
+            onClick = {
+                var it = Intent(Intent.ACTION_VIEW)
+                it.data = Uri.parse("geo:24.2267756,120.5771591?q=restaurants")
+                context.startActivity(it)
+            }
+        )
+        {
+            Text(text = "Google Map查詢")
+        }
+
     }
 }
 
